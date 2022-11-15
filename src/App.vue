@@ -1,17 +1,34 @@
 <script setup lang="ts">
-//import { RouterLink, RouterView } from "vue-router";
-import Books from "./views/Books/Books-List.vue";
+import type { TData } from "@/types/types";
 import { ref } from "vue";
-const visability = ref(false);
-const toggle = (): void => {
-  visability.value = !visability.value;
+import ButtonComp from "@/components/ButtonComp.vue";
+import BoxComp from "@/components/BoxComp.vue";
+import ModalComp from "@/components/ModalComp.vue"
+
+const data = ref<TData[]>();
+const showModal = ref(false);
+const fetchData = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  data.value = await res.json();
+};
+const clearData = () => {
+  data.value = undefined;
+};
+const toggleModal = () => {
+  showModal.value = !showModal.value;
 };
 </script>
 
 <template>
-  <h1>Vue learn!</h1>
-  <button @click="toggle">Show books!</button>
-  <Books v-if="visability" />
+  <h1>Learn Vue!</h1>
+  <section>
+    <ButtonComp :action="fetchData">Fetch data!</ButtonComp>
+    <ButtonComp :action="clearData">Clear data!</ButtonComp>
+    <ButtonComp :action="toggleModal">Show modal!</ButtonComp>
+  </section>
+  <BoxComp :data="data" />
+  <ModalComp :showModal="showModal" v-if="showModal" @close="toggleModal" />
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>
