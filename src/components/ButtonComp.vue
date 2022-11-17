@@ -1,23 +1,34 @@
 <script setup lang="ts">
-defineProps({
-  action: Function,
-});
+defineProps<{
+  action?: Function;
+  variant?: String;
+}>();
 </script>
 
 <template>
-  <button class="btn" @click="action">
+  <button @click.prevent="action" class="btn" :class="variant">
     <slot />
   </button>
 </template>
 
 <style scoped>
 .btn {
-  margin: 20px 10px;
   padding: 10px;
-  border-radius: 10px;
+  width: 100px;
   border: none;
-  background: mediumseagreen;
+  border-radius: 15px;
   color: #ffffff;
+  text-transform: uppercase;
+  font-family: Bahnschrift, serif;
   cursor: pointer;
+}
+.green {
+  background: #44bd32;
+}
+.red {
+  background: #e84118;
+}
+.blue {
+  background: #0097e6;
 }
 </style>
